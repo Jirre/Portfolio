@@ -1,0 +1,52 @@
+@property --dynamic-color {
+    syntax: '<color>';
+    initial-value: #3b82f6;
+    inherits: false;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*noinspection CssUnresolvedCustomProperty*/
+@theme {
+    --background: #ffffff;
+    --foreground: #171717;
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-dynamic: var(--dynamic-color);
+    --font-sans: var(--font-roboto-sans);
+    --font-mono: var(--font-roboto-mono);
+}
+
+@layer base {
+
+
+    .dark {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+
+    /* You MUST actually apply the variables to the page */
+    body {
+        background-color: var(--background);
+        color: var(--foreground);
+    }
+}
+
+@keyframes rainbow-light {
+    0%   { --dynamic-color: #ef4444; }
+    20%  { --dynamic-color: #f59e0b; }
+    40%  { --dynamic-color: #10b981; }
+    60%  { --dynamic-color: #3b82f6; }
+    80%  { --dynamic-color: #8b5cf6; }
+    100% { --dynamic-color: #ef4444; }
+}
+
+@keyframes rainbow-dark {
+    0%   { --dynamic-color: #ff5f5f; }
+    20%  { --dynamic-color: #ffd25e; }
+    40%  { --dynamic-color: #5effad; }
+    60%  { --dynamic-color: #5eb3ff; }
+    80%  { --dynamic-color: #c084fc; }
+    100% { --dynamic-color: #ff5f5f; }
+}

@@ -1,0 +1,23 @@
+@layer base {
+    h1 {
+        @apply font-mono my-1 text-3xl font-semibold grow;
+    }
+
+    h2 {
+        @apply font-mono border-dynamic mt-4 mb-2 border-b text-2xl font-extrabold grow;
+    }
+
+    h3 {
+        @apply font-mono -mb-1 mt-3 border-b text-xl font-extrabold border-dynamic/30 grow;
+    }
+
+    p {
+        @apply leading-7 wrap-break-word;
+    }
+
+    /*noinspection CssUnresolvedCustomProperty*/
+    .text-2xs {
+        font-size: 0.625rem;
+        line-height: var(--tw-leading, calc(1 / 0.625) /* calc(1 / 0.75) ≈ 1.3333 */);
+    }
+}
