@@ -1,7 +1,8 @@
 "use client";
 
+import SmallButton from "@/components/ui/buttons/small-button";
 import { useEffect, useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import {LuMoon, LuSun} from "react-icons/lu";
 
 export const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -24,20 +25,9 @@ export const ThemeToggle = () => {
     }
   };
 
-  if (!mounted) return <div className="h-full px-4 w-[58px]" />;
-
   return (
-    <button
-      onClick={toggleTheme}
-      className="ml-auto group relative h-12 w-12 mx-1 flex items-center justify-center
-                 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white
-                 transition-all duration-300
-                 border border-white/10 hover:border-dynamic
-                 rounded-xl hover:bg-white/5 cursor-pointer"
-    >
-      <div className="relative z-10">
-        {isDark ? <Sun size={18} /> : <Moon size={18} />}
-      </div>
-    </button>
+    <SmallButton onClick={toggleTheme}>
+      {mounted && (isDark ? <LuSun size={18} /> : <LuMoon size={18} />)}
+    </SmallButton>
   );
 };

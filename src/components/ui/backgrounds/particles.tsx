@@ -31,12 +31,6 @@ export const ParticlesBackground = ({ count = 160 }) => {
 
     let w: number, h: number;
     let particles: Particle[] = [];
-    let activeColor = "#3b82f6";
-
-    const colorInterval = setInterval(() => {
-      activeColor = getComputedStyle(document.documentElement)
-        .getPropertyValue('--dynamic-color').trim() || "#3b82f6";
-    }, 500);
 
     const initCanvas = () => {
       w = canvas.width = window.innerWidth;
@@ -47,10 +41,14 @@ export const ParticlesBackground = ({ count = 160 }) => {
     initCanvas();
 
     const animate = () => {
+      const currentDynamicColor = getComputedStyle(document.body)
+        .getPropertyValue('--dynamic-color')
+        .trim() || "#3b82f6";
+
       ctx.clearRect(0, 0, w, h);
 
       ctx.beginPath();
-      ctx.fillStyle = activeColor;
+      ctx.fillStyle = currentDynamicColor;
       particles.forEach(p => {
         p.update(w, h);
         ctx.moveTo(p.x, p.y);
@@ -82,13 +80,13 @@ export const ParticlesBackground = ({ count = 160 }) => {
       }
 
       // 3. Render each bucket with its specific alpha
-      ctx.strokeStyle = activeColor;
+      ctx.strokeStyle = currentDynamicColor; // Use the live color
       ctx.lineWidth = 0.8;
 
       Object.entries(buckets).forEach(([index, lines]) => {
         if (lines.length === 0) return;
         ctx.beginPath();
-        ctx.globalAlpha = (Number(index) / 4) * 0.3; // Scale opacity
+        ctx.globalAlpha = (Number(index) / 4) * 0.3;
         lines.forEach(l => {
           ctx.moveTo(l.x1, l.y1);
           ctx.lineTo(l.x2, l.y2);
@@ -105,7 +103,6 @@ export const ParticlesBackground = ({ count = 160 }) => {
     const animationId = requestAnimationFrame(animate);
 
     return () => {
-      clearInterval(colorInterval);
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
     };

@@ -1,15 +1,26 @@
-import HexImage from "@/components/ui/image/hex-image";
+import {Hero} from "./hero";
+import {Projects} from "@/app/(home)/projects";
+import {SectionHeader} from "@/components/ui/typography/section-header";
+import {getProject} from "@/utils/mdx/project-reader";
+import {LuSearchCode} from "react-icons/lu";
 
-export default function Home() {
+
+
+export default async function Home() {
+  const projects = await getProject(["cat-tapper", "festicoin", "no-rush"]);
+
   return (
-    <section className="w-full flex p-4 gap-8">
-      <HexImage src={"profile-pic.jpg"} alt="Profile Picture" className="text-dynamic mx-auto" borderWeight={2} size={320}/>
-      <div>
-        <h1 className="text-[4rem] p-4">Hello!</h1>
-        <p className="text-2xl font-mono bg-white/50 dark:bg-zinc-950/50 p-4 rounded-lg">
-          My name is <strong>Jirre Verkerk</strong>, and I am a professional <strong>Game-Developer</strong> and <strong>Teacher</strong> with a passion for new challenges and helping people find their passion in programming.
-        </p>
-      </div>
-    </section>
+    <>
+      <Hero />
+
+      <SectionHeader icon={<LuSearchCode size={32} className="m-auto h-full" /> }>
+        Skills
+      </SectionHeader>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      </section>
+
+      <Projects projects={projects.map(e => e.metadata)} />
+    </>
   );
 }

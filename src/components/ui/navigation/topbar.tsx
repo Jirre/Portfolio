@@ -1,14 +1,19 @@
 "use client";
-
 import {useState, useEffect} from "react";
 import {Box} from "@/components/ui/box";
 import {ThemeToggle} from "@/components/ui/theme-toggle";
 import {cn} from "@/utils";
-import {ExternalLink, Menu, X} from "lucide-react";
 import Link from "next/link";
 import {ReactNode} from "react";
+import {LuExternalLink, LuMenu, LuX} from "react-icons/lu";
 
-export const Navbar = () => {
+const Links = [
+  {name: "Home", href: "/"},
+  {name: "Projects", href: "/projects"},
+  {name: "About", href: "/about"},
+]
+
+export const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // Prevent scrolling when the mobile menu is open
@@ -30,7 +35,7 @@ export const Navbar = () => {
           className="md:hidden relative z-100 p-2 text-zinc-500 dark:text-zinc-400 cursor-pointer"
           aria-label="Toggle Menu"
         >
-          {isOpen ? <X size={32}/> : <Menu size={32}/>}
+          {isOpen ? <LuX size={32}/> : <LuMenu size={32}/>}
         </button>
 
         <div className="flex flex-col justify-between items-center gap-0.5 mx-4 text-zinc-950 dark:text-white">
@@ -40,11 +45,11 @@ export const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-2 h-full mx-auto">
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/projects">Projects</NavLink>
-          <NavLink href="/about">About</NavLink>
+          {
+            Links.map(({name, href}) => <NavLink key={name} href={href}>{name}</NavLink>)
+          }
           <div className="w-0.5 h-8 bg-dynamic/50" />
-          <NavLink href="/resume.pdf" newTab>Resume <ExternalLink className="size-4" /></NavLink>
+          <NavLink href="/resume.pdf" newTab>Resume <LuExternalLink className="size-4" /></NavLink>
         </div>
 
         <div className="flex items-center gap-4">
@@ -57,9 +62,9 @@ export const Navbar = () => {
               : "opacity-0 pointer-events-none -translate-y-5"
           )}>
             <div className="flex flex-col items-center gap-8">
-              <NavLink href="/" onClick={() => setIsOpen(false)} isMobile>Home</NavLink>
-              <NavLink href="/projects" onClick={() => setIsOpen(false)} isMobile>Projects</NavLink>
-              <NavLink href="/about" onClick={() => setIsOpen(false)} isMobile>About</NavLink>
+              {
+                Links.map(({name, href}) => <NavLink key={name} href={href} onClick={() => setIsOpen(false)} isMobile>{name}</NavLink>)
+              }
               <div className="w-16 h-1 bg-dynamic/50"/>
               <NavLink href="/resume.pdf" onClick={() => setIsOpen(false)} isMobile newTab>Resume</NavLink>
             </div>

@@ -4,11 +4,16 @@
     }
 
     h2 {
-        @apply font-mono border-dynamic mt-4 mb-2 border-b text-2xl font-extrabold grow;
+        @apply relative font-mono my-4 text-3xl font-extrabold text-center p-4 uppercase;
+
+        &::after {
+            content: '';
+            @apply absolute bottom-0 left-1/2 -translate-x-1 w-12 border-b-4 border-dynamic;
+        }
     }
 
     h3 {
-        @apply font-mono -mb-1 mt-3 border-b text-xl font-extrabold border-dynamic/30 grow;
+        @apply font-mono border-b text-xl font-extrabold border-dynamic/30 grow;
     }
 
     p {

@@ -3,24 +3,19 @@
 
 @layer base {
     .fixed-clip-zone {
-        /* 1. Fix this wrapper to the screen */
         position: fixed;
         inset: 0;
         z-index: 10;
 
-        /* 2. The Clip: Everything in this container above 5.5rem is GONE */
-        /* This stays at the top of the screen even when you scroll */
         clip-path: inset(5.5rem 0 0 0);
         -webkit-clip-path: inset(5.5rem 0 0 0);
 
-        /* 3. Allow the content inside to scroll normally */
         overflow-y: auto;
         overflow-x: hidden;
         height: 100vh;
     }
 
     main {
-        /* Ensure main behaves like a normal scrolling block inside the clip */
         min-height: 100%;
         width: 100%;
     }
