@@ -71,6 +71,7 @@ export const Topbar = () => {
             </div>
           </div>
         </div>
+        <div className="lg:hidden grow" />
         <ThemeToggle/>
       </Box>
     </nav>
