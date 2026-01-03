@@ -13,7 +13,7 @@
     }
 
     h3 {
-        @apply font-mono border-b text-xl font-extrabold border-dynamic/30 p-2;
+        @apply font-mono border-b text-xl font-extrabold border-dynamic/30 py-2;
     }
 
     p {

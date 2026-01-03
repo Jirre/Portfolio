@@ -44,10 +44,10 @@ export default function RootLayout({children}: { children: ReactNode }) {
       />
     </head>
     <body className={`${robotoSans.variable} ${robotoMono.variable} font-sans antialiased flex flex-col min-h-screen h-full`}>
-    <ParticlesBackground count={160} />
+    <ParticlesBackground />
 
     <div className="flex-1 flex flex-col">
-      <main className="max-w-7xl mx-auto w-full px-4 flex-1">
+      <main className="max-w-8xl mx-auto w-full px-4 flex-1">
         <div className="h-22 w-full" aria-hidden="true" />
         <div className="pt-8 flex flex-col">
           {children}

@@ -30,7 +30,7 @@ export const Topbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full h-24 p-2 z-50">
-      <Box className="mx-auto flex items-center justify-between max-w-7xl h-full px-4 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md shadow-xl">
+      <Box className="mx-auto flex items-center justify-between max-w-8xl h-full px-4 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md shadow-xl">
         <button
           onClick={toggleMenu}
           className="lg:hidden relative z-100 p-2 text-zinc-500 dark:text-zinc-400 cursor-pointer"

@@ -6,7 +6,7 @@ import {LuMail} from "react-icons/lu";
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-  <footer className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-center w-full border-t border-zinc-950/10 dark:border-white/10">
+  <footer className="max-w-8xl mx-auto px-4 h-16 flex items-center justify-center w-full border-t border-zinc-950/10 dark:border-white/10">
     <div className="flex-1 text-sm text-zinc-500 dark:text-zinc-400">
       © {currentYear} Jirre Verkerk, All rights reserved.
     </div>

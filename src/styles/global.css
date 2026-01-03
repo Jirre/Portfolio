@@ -14,6 +14,8 @@
     --color-dynamic: var(--dynamic-color);
     --font-sans: var(--font-roboto-sans);
     --font-mono: var(--font-roboto-mono);
+
+    --spacing-8xl: 96rem;
 }
 
 body {

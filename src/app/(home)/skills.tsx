@@ -3,11 +3,9 @@ import Button from "@/components/ui/buttons/button";
 import {SkillCard} from "@/components/ui/cards/skill-card";
 import { GamemakerOne, SvgCSharp } from "@/components/svgs";
 import {Box} from "@/components/ui/box";
-import {SectionHeader} from "@/components/ui/typography/section-header";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { FaDatabase, FaJava, FaStar } from "react-icons/fa";
-import {LuSearchCode} from "react-icons/lu";
 import {
   SiCplusplus,
   SiCss3, SiDocker,
@@ -73,10 +71,6 @@ export const Skills = () => {
 
   return (
     <section className="flex flex-col gap-6">
-      <SectionHeader icon={<LuSearchCode size={32} className="m-auto h-full"/>}>
-        Skills
-      </SectionHeader>
-
       {/* Filter Bar Box */}
       <Box className="p-4 flex flex-wrap justify-center gap-2">
         {SKILL_TAGS.map((tag) => (

@@ -34,7 +34,7 @@ export const ParticlesBackground = () => {
 
     let w: number, h: number;
     let particles: Particle[] = [];
-    let lastTime = performance.now(); // Track the last frame time
+    let lastTime = performance.now();
 
     const initCanvas = () => {
       w = canvas.width = window.innerWidth;
@@ -45,11 +45,9 @@ export const ParticlesBackground = () => {
     initCanvas();
 
     const animate = (currentTime: number) => {
-      // 1. Calculate Delta Time (in seconds)
       const deltaTime = (currentTime - lastTime) / 1000;
       lastTime = currentTime;
 
-      // Prevent massive jumps if the tab was inactive
       const dt = Math.min(deltaTime, 0.1);
 
       const currentDynamicColor = getComputedStyle(document.body)
@@ -58,7 +56,6 @@ export const ParticlesBackground = () => {
 
       ctx.clearRect(0, 0, w, h);
 
-      // 2. Update and Draw Particles
       ctx.beginPath();
       ctx.fillStyle = currentDynamicColor;
       particles.forEach(p => {
@@ -68,7 +65,6 @@ export const ParticlesBackground = () => {
       });
       ctx.fill();
 
-      // 3. Line Logic (Optimized Bucketing)
       const buckets: Record<number, { x1: number, y1: number, x2: number, y2: number }[]> = {
         1: [], 2: [], 3: [], 4: []
       };
