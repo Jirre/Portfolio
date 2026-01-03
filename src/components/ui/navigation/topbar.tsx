@@ -1,7 +1,7 @@
 "use client";
 import {useState, useEffect} from "react";
 import {Box} from "@/components/ui/box";
-import {ThemeToggle} from "@/components/ui/theme-toggle";
+import {ThemeToggle} from "@/components/ui/navigation/theme-toggle";
 import {cn} from "@/utils";
 import Link from "next/link";
 import {ReactNode} from "react";
@@ -9,8 +9,9 @@ import {LuExternalLink, LuMenu, LuX} from "react-icons/lu";
 
 const Links = [
   {name: "Home", href: "/"},
-  {name: "Projects", href: "/projects"},
   {name: "About", href: "/about"},
+  {name: "Experience", href: "/experience"},
+  {name: "Projects", href: "/projects"},
 ]
 
 export const Topbar = () => {
@@ -29,10 +30,10 @@ export const Topbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 w-full h-24 p-2 z-50">
-      <Box className="mx-auto flex items-center justify-between max-w-7xl h-full px-4">
+      <Box className="mx-auto flex items-center justify-between max-w-7xl h-full px-4 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md shadow-xl">
         <button
           onClick={toggleMenu}
-          className="md:hidden relative z-100 p-2 text-zinc-500 dark:text-zinc-400 cursor-pointer"
+          className="lg:hidden relative z-100 p-2 text-zinc-500 dark:text-zinc-400 cursor-pointer"
           aria-label="Toggle Menu"
         >
           {isOpen ? <LuX size={32}/> : <LuMenu size={32}/>}
@@ -44,7 +45,7 @@ export const Topbar = () => {
           <span className="text-sm mx-4 opacity-65 italic font-mono">Game Programmer</span>
         </div>
 
-        <div className="hidden md:flex items-center gap-2 h-full mx-auto">
+        <div className="hidden lg:flex items-center gap-2 h-full mx-auto">
           {
             Links.map(({name, href}) => <NavLink key={name} href={href}>{name}</NavLink>)
           }
@@ -56,7 +57,7 @@ export const Topbar = () => {
           <div className={cn(
             "fixed inset-0 -m-2 outline w-screen h-screen bg-white dark:bg-zinc-950 outline-white dark:outline-zinc-950",
             "flex flex-col items-center justify-center gap-10",
-            "transition-all duration-500 ease-in-out md:hidden z-90",
+            "transition-all duration-500 ease-in-out lg:hidden z-90",
             isOpen
               ? "opacity-100 pointer-events-auto translate-y-0"
               : "opacity-0 pointer-events-none -translate-y-5"

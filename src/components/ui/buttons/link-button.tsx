@@ -18,7 +18,7 @@ export default function LinkButton({ href, children, className = "" }: ButtonPro
                  font-black
                  backdrop-blur-xs shadow-lg hover:shadow-dynamic hover:shadow-[0_0_12px]`}
     >
-      <div className="relative z-10">{children}</div>
+      {children}
     </Link>
   );
 }

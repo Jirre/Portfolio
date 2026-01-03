@@ -1,4 +1,4 @@
-import ProjectCard from "@/app/(home)/components/project-card";
+import ProjectCard from "@/components/ui/cards/project-card";
 import LinkButton from "@/components/ui/buttons/link-button";
 import {SectionHeader} from "@/components/ui/typography/section-header";
 import {ProjectMetadata} from "@/utils/mdx/project-reader";
@@ -7,7 +7,7 @@ import {LuCodeXml} from "react-icons/lu";
 export const Projects = ({projects}: {projects: ProjectMetadata[]}) =>
 {
   return (
-    <section>
+    <section id="projects">
       <SectionHeader icon={
         <LuCodeXml size={32} className="m-auto h-full" />
       } >Featured Projects</SectionHeader>

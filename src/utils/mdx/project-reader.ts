@@ -6,6 +6,8 @@ export interface ProjectMetadata {
   title: string;
   date: string;
   thumbnail: string;
+  link?: string;
+  github?: string;
   type: string;
   stack: string[];
   platforms: string[];

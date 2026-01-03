@@ -1,8 +1,8 @@
 "use client";
 
-import SmallButton from "@/components/ui/buttons/small-button";
+import Button from "@/components/ui/buttons/button";
 import { useEffect, useState } from "react";
-import {LuMoon, LuSun} from "react-icons/lu";
+import { LuMoon, LuSun } from "react-icons/lu";
 
 export const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
@@ -26,8 +26,8 @@ export const ThemeToggle = () => {
   };
 
   return (
-    <SmallButton onClick={toggleTheme}>
-      {mounted && (isDark ? <LuSun size={18} /> : <LuMoon size={18} />)}
-    </SmallButton>
+    <Button onClick={toggleTheme} className="size-12">
+      {mounted && (isDark ? <LuSun size={18}/> : <LuMoon size={18}/>)}
+    </Button>
   );
 };

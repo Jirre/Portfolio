@@ -4,9 +4,11 @@ import {cn} from "@/utils";
 import {ProjectMetadata} from "@/utils/mdx/project-reader";
 import Link from "next/link";
 import React from 'react';
+import {FaGlobe} from "react-icons/fa";
+import {SiGithub} from "react-icons/si";
+// Added icon imports
 
 const colors: Record<string, string> = {
-  // types
   'app': 'bg-blue-300 dark:bg-blue-700',
   'game': 'bg-green-300 dark:bg-green-700',
   'tool': 'bg-purple-300 dark:bg-purple-700',
@@ -17,11 +19,13 @@ const colors: Record<string, string> = {
 const ProjectCard = ({metadata}: {metadata: ProjectMetadata}) => {
   return (
     <Link className="group relative rounded-2xl p-0.5 transition-all duration-300 hover:scale-[1.02]"
-    href={`/projects/${metadata.slug}`}>
+          href={`/projects/${metadata.slug}`}>
       <Box className="relative h-full w-full overflow-hidden flex flex-col transition-all duration-300
                  hover:border-dynamic hover:bg-white/5 cursor-pointer
                  backdrop-blur-xs shadow-lg
                  hover:shadow-dynamic hover:shadow-[0_0_12px]">
+
+        {/* Thumbnail Header */}
         <div className="relative h-48 w-full overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
           <img
             src={`/projects/${metadata.slug}/${metadata.thumbnail}`}
@@ -35,13 +39,15 @@ const ProjectCard = ({metadata}: {metadata: ProjectMetadata}) => {
           </div>
         </div>
 
-        <div className="flex flex-col p-5 gap-2">
+        <div className="flex flex-col p-5 gap-2 relative">
           <h3 className="text-xl font-bold font-mono mb-2 group-hover:text-dynamic transition-colors">
             {metadata.title}
           </h3>
-          <span className={"text-zinc-950/50 dark:text-white/50 italic font-mono text-xs -mt-2 mb-2"}>{metadata.date}</span>
+          <span className={"text-zinc-950/50 dark:text-white/50 italic font-mono text-xs -mt-2 mb-2"}>
+            {metadata.date}
+          </span>
 
-          <div className="mt-auto flex flex-wrap gap-2">
+          <div className="mt-auto flex flex-wrap gap-2 pr-16">
             {metadata.stack.map((e) => (
               <span
                 key={e}
@@ -51,7 +57,8 @@ const ProjectCard = ({metadata}: {metadata: ProjectMetadata}) => {
               </span>
             ))}
           </div>
-          <div className="mt-auto flex flex-wrap gap-2">
+
+          <div className="mt-auto flex flex-wrap gap-2 pr-16">
             {metadata.tags.map((e) => (
               <span
                 key={e}
@@ -60,6 +67,11 @@ const ProjectCard = ({metadata}: {metadata: ProjectMetadata}) => {
                 {e}
               </span>
             ))}
+          </div>
+
+          <div className="absolute bottom-5 right-5 flex items-center gap-2 text-zinc-400 dark:text-zinc-500 transition-colors group-hover:text-dynamic">
+            {metadata.github && <SiGithub size={16} />}
+            {metadata.link && <FaGlobe size={16} />}
           </div>
         </div>
       </Box>

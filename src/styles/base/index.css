@@ -2,21 +2,13 @@
 @import "./particle.css";
 
 @layer base {
-    .fixed-clip-zone {
-        position: fixed;
-        inset: 0;
-        z-index: 10;
-
-        clip-path: inset(5.5rem 0 0 0);
-        -webkit-clip-path: inset(5.5rem 0 0 0);
-
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: 100vh;
-    }
-
     main {
         min-height: 100%;
         width: 100%;
+    }
+
+    section {
+        @apply my-6;
+        scroll-margin-top: 7em;
     }
 }

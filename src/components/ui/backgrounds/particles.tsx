@@ -7,20 +7,23 @@ class Particle {
   constructor(w: number, h: number) {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
-    this.vx = (Math.random() - 0.5) * .5;
-    this.vy = (Math.random() - 0.5) * .5;
+    // Increased base velocity slightly because it's now multiplied by a small delta
+    this.vx = (Math.random() - 0.5) * 50;
+    this.vy = (Math.random() - 0.5) * 50;
     this.radius = Math.random() * 1.5 + 1;
   }
 
-  update(w: number, h: number) {
-    this.x += this.vx;
-    this.y += this.vy;
+  // Delta time (dt) is in seconds (e.g., 0.016 for 60fps)
+  update(w: number, h: number, dt: number) {
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+
     if (this.x < 0) this.x = w; else if (this.x > w) this.x = 0;
     if (this.y < 0) this.y = h; else if (this.y > h) this.y = 0;
   }
 }
 
-export const ParticlesBackground = ({ count = 160 }) => {
+export const ParticlesBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -31,6 +34,7 @@ export const ParticlesBackground = ({ count = 160 }) => {
 
     let w: number, h: number;
     let particles: Particle[] = [];
+    let lastTime = performance.now(); // Track the last frame time
 
     const initCanvas = () => {
       w = canvas.width = window.innerWidth;
@@ -40,23 +44,32 @@ export const ParticlesBackground = ({ count = 160 }) => {
 
     initCanvas();
 
-    const animate = () => {
+    const animate = (currentTime: number) => {
+      // 1. Calculate Delta Time (in seconds)
+      const deltaTime = (currentTime - lastTime) / 1000;
+      lastTime = currentTime;
+
+      // Prevent massive jumps if the tab was inactive
+      const dt = Math.min(deltaTime, 0.1);
+
       const currentDynamicColor = getComputedStyle(document.body)
         .getPropertyValue('--dynamic-color')
         .trim() || "#3b82f6";
 
       ctx.clearRect(0, 0, w, h);
 
+      // 2. Update and Draw Particles
       ctx.beginPath();
       ctx.fillStyle = currentDynamicColor;
       particles.forEach(p => {
-        p.update(w, h);
+        p.update(w, h, dt); // Pass delta time here
         ctx.moveTo(p.x, p.y);
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       });
       ctx.fill();
 
-      const buckets: { [key: number]: { x1: number, y1: number, x2: number, y2: number }[] } = {
+      // 3. Line Logic (Optimized Bucketing)
+      const buckets: Record<number, { x1: number, y1: number, x2: number, y2: number }[]> = {
         1: [], 2: [], 3: [], 4: []
       };
 
@@ -72,15 +85,13 @@ export const ParticlesBackground = ({ count = 160 }) => {
 
           if (distSq < maxDistSq) {
             const alpha = 1 - distSq / maxDistSq;
-            // Assign to one of 4 buckets based on opacity (0.25 steps)
             const bucketIndex = Math.ceil(alpha * 4);
             buckets[bucketIndex].push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
           }
         }
       }
 
-      // 3. Render each bucket with its specific alpha
-      ctx.strokeStyle = currentDynamicColor; // Use the live color
+      ctx.strokeStyle = currentDynamicColor;
       ctx.lineWidth = 0.8;
 
       Object.entries(buckets).forEach(([index, lines]) => {
@@ -106,7 +117,7 @@ export const ParticlesBackground = ({ count = 160 }) => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationId);
     };
-  }, [count]);
+  }, []);
 
   return (
     <canvas

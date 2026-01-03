@@ -1,10 +1,10 @@
 @layer base {
     h1 {
-        @apply font-mono my-1 text-3xl font-semibold grow;
+        @apply font-mono text-3xl font-semibold;
     }
 
     h2 {
-        @apply relative font-mono my-4 text-3xl font-extrabold text-center p-4 uppercase;
+        @apply relative font-mono text-3xl font-extrabold text-center p-4 uppercase;
 
         &::after {
             content: '';
@@ -13,7 +13,7 @@
     }
 
     h3 {
-        @apply font-mono border-b text-xl font-extrabold border-dynamic/30 grow;
+        @apply font-mono border-b text-xl font-extrabold border-dynamic/30 p-2;
     }
 
     p {
