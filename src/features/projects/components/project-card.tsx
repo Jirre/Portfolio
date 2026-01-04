@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
 import { H3 } from "@/components/ui/typography/headers";
-import { projectTypeColors } from "../types/project-type";
+import { ProjectType, projectTypeColors } from "../types/project-type";
 import { ProjectMetadata } from "../types/project";
 import { cn } from "@/utils";
 import Link from "next/link";
@@ -28,8 +28,8 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
 
           {/* Project Type Badge */}
           <div className={cn(
-            "absolute top-3 left-3 rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md border uppercase tracking-widest border-0",
-            projectTypeColors[typeKey] || projectTypeColors.other
+            "absolute top-3 left-3 rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md uppercase tracking-widest",
+            projectTypeColors[typeKey as ProjectType] || projectTypeColors.other
           )}>
             {metadata.type}
           </div>

@@ -3,7 +3,7 @@ import { LinkButton } from "@/components/ui/buttons";
 import { H1 } from "@/components/ui/typography/headers";
 import { SectionHeader } from "@/components/ui/typography/section-header";
 import { AchievementCard, achievements, EducationCard, educations } from "@/features/experiences";
-import { SkillsDisplay, trainedSkills } from "@/features/skills";
+import { SkillsGrid, trainedSkills } from "@/features/skills";
 import { FaFileDownload, FaGraduationCap, FaTrophy, FaUser } from "react-icons/fa";
 import { LuSearchCode } from "react-icons/lu";
 
@@ -59,7 +59,7 @@ export default function About() {
         <div className="hidden lg:flex flex-col">
           <section>
             <SectionHeader icon={<LuSearchCode size={28} className="m-auto h-full" />}>Skills</SectionHeader>
-            <SkillsDisplay skills={trainedSkills} />
+            <SkillsGrid skills={trainedSkills} />
           </section>
         </div>
       </div>

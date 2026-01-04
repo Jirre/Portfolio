@@ -1,7 +1,7 @@
 import { LinkButton } from "@/components/ui/buttons";
 import { SectionHeader } from "@/components/ui/typography/section-header";
 import { ProjectCard } from "@/features/projects/components/project-card";
-import { SkillsDisplay, trainedSkills } from "@/features/skills";
+import { SkillsGrid, trainedSkills } from "@/features/skills";
 import { LuCodeXml, LuSearchCode } from "react-icons/lu";
 import {Hero} from "./_components/hero";
 import {getProject} from "@/features/projects/utils/project-reader";
@@ -28,7 +28,7 @@ export default async function Home() {
       <SectionHeader className="mb-4" icon={
         <LuSearchCode size={28} className="m-auto h-full"/>
       }>Skills</SectionHeader>
-      <SkillsDisplay skills={trainedSkills} />
+      <SkillsGrid skills={trainedSkills} />
     </>
   );
 }

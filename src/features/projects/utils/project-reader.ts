@@ -13,7 +13,7 @@ export async function getProject(files: string[]) {
   return projects.filter((p) => p !== null);
 }
 
-export async function getAllProject() {
+export async function getAllProjects() {
   const fileNames = fs.readdirSync(PROJECTS_DIR);
 
   const slugs = fileNames

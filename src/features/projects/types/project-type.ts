@@ -1,6 +1,14 @@
-export type ProjectType = 'app' | 'game' | 'tool' | 'website' | 'other';
+export const projectTypes = [
+  'app',
+  'game',
+  'tool',
+  'website',
+  'other',
+] as const;
 
-export const projectTypeColors: Record<string, string> = {
+export type ProjectType = typeof projectTypes[number];
+
+export const projectTypeColors: Record<ProjectType, string> = {
   'app': 'bg-blue-300 dark:bg-blue-700 text-foreground',
   'game': 'bg-green-300 dark:bg-green-700 text-foreground',
   'tool': 'bg-purple-300 dark:bg-purple-700 text-foreground',
