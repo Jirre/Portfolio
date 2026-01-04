@@ -1,9 +1,0 @@
-@layer base {
-    :root {
-        animation: rainbow-light 12s linear infinite;
-    }
-
-    .dark {
-        animation: rainbow-dark 12s linear infinite;
-    }
-}

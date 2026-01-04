@@ -1,9 +1,10 @@
+import { LinkButton } from "@/components/ui/buttons";
 import { SectionHeader } from "@/components/ui/typography/section-header";
-import { LuSearchCode } from "react-icons/lu";
-import {Skills} from "./skills";
-import {Hero} from "./hero";
-import {Projects} from "@/app/(home)/projects";
-import {getProject} from "@/utils/mdx/project-reader";
+import { ProjectCard } from "@/features/projects/components/project-card";
+import { SkillsDisplay, trainedSkills } from "@/features/skills";
+import { LuCodeXml, LuSearchCode } from "react-icons/lu";
+import {Hero} from "./_components/hero";
+import {getProject} from "@/features/projects/utils/project-reader";
 
 export default async function Home() {
   const projects = await getProject(["cat-tapper", "festicoin", "no-rush"]);
@@ -11,12 +12,23 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <Projects projects={projects.map(e => e.metadata)} />
 
-      <SectionHeader icon={<LuSearchCode size={28} className="m-auto h-full"/>}>
-        Skills
-      </SectionHeader>
-      <Skills />
+      <SectionHeader className="mb-4" icon={
+        <LuCodeXml size={28} className="m-auto h-full"/>
+      }>Featured Projects</SectionHeader>
+      <section id="projects">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map((p, i) => (
+            <ProjectCard key={i} metadata={p.metadata}/>
+          ))}
+        </div>
+        <LinkButton href="/projects" className="mt-4 mx-auto px-16 w-64">View More</LinkButton>
+      </section>
+
+      <SectionHeader className="mb-4" icon={
+        <LuSearchCode size={28} className="m-auto h-full"/>
+      }>Skills</SectionHeader>
+      <SkillsDisplay skills={trainedSkills} />
     </>
   );
 }

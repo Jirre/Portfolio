@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import "./theme";
-@import "./base";
+@import "./dynamic-color.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -18,12 +17,6 @@
     --spacing-8xl: 96rem;
 }
 
-body {
-    background: var(--background);
-    color: var(--foreground);
-    font-family: Roboto, sans-serif;
-}
-
 @layer base {
     .dark {
         --background: #0a0a0a;
@@ -31,7 +24,52 @@ body {
     }
 
     body {
-        background-color: var(--background);
+        background: var(--background);
         color: var(--foreground);
+        font-family: Roboto, sans-serif;
+
+        background-color: var(--background);
+    }
+
+    main {
+        min-height: 100%;
+        width: 100%;
+    }
+
+    section {
+        @apply my-6;
+        scroll-margin-top: 7em;
+    }
+
+    p {
+        @apply leading-7 wrap-break-word;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        padding: 0;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+    }
+
+    /*noinspection CssUnresolvedCustomProperty*/
+    .text-2xs {
+        font-size: 0.625rem;
+        line-height: var(--tw-leading, calc(1 / 0.625) /* calc(1 / 0.75) ≈ 1.3333 */);
     }
 }

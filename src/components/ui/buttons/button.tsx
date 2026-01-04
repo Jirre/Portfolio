@@ -1,4 +1,6 @@
 "use client";
+import { boxStyles, BoxVariant } from "@/components/ui/box/styles";
+import { buttonStyles } from "@/components/ui/buttons/styles";
 import {cn} from "@/utils";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -6,35 +8,26 @@ interface ButtonProps {
   onClick: () => void;
   children: ReactNode;
   className?: string;
+  variant?: BoxVariant;
 }
 
-export default function Button({ onClick, children, className = "" }: ButtonProps) {
+export function Button({ onClick, children, className = "", variant = "default" }: ButtonProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const baseStyles = `group relative h-12 mx-1 flex items-center justify-center
-                     border border-zinc-950/10 dark:border-white/10
-                     rounded-xl transition-all duration-200`;
-
   if (!mounted) {
     return (
-      <div className={cn(`bg-white/5 opacity-50 cursor-default`, baseStyles, className)}>
-        <div className="relative z-10 grayscale">{children}</div>
+      <div className={cn(boxStyles[variant], className, "grayscale")}>
+        {children}
       </div>
     );
   }
 
   return (
-    <button
-      onClick={onClick}
-      className={cn(`text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 
-                 dark:hover:text-white hover:border-dynamic hover:bg-white/5 cursor-pointer
-                 backdrop-blur-xs shadow-lg
-                 hover:shadow-dynamic hover:shadow-[0_0_12px]`, baseStyles, className)}
-    >
+    <button onClick={onClick} className={cn(buttonStyles[variant], className)}>
       {children}
     </button>
-  );
+  )
 }
