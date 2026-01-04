@@ -3,7 +3,7 @@ import { socialLinks } from "@/config/social-links";
 
 export const Footer = () => (
     <footer className="w-full border-t border-zinc-950/10 dark:border-white/10 backdrop-blur-xs">
-      <div className="max-w-8xl mx-auto px-4 h-24 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="max-w-8xl mx-auto p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-sm text-foreground/65 font-mono">
           © <span suppressHydrationWarning>{new Date().getFullYear()}</span> <span className="text-zinc-950 dark:text-white font-bold">Jirre Verkerk</span>;
           All rights reserved.

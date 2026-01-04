@@ -1,7 +1,16 @@
+import { CarouselSlide } from "@/features/carousel/types/carousel-slide";
+
 export type Project = {
   file: string;
   metadata: ProjectMetadata;
   content: string;
+}
+
+export type Collaborator = {
+  name: string;
+  role?: string;
+  url: string;
+  img: string;
 }
 
 export interface ProjectMetadata {
@@ -9,6 +18,7 @@ export interface ProjectMetadata {
   date: string;
   thumbnail: string;
   summary: string;
+  collaborators?: Collaborator[];
   link?: string;
   github?: string;
   type: string;
@@ -16,4 +26,6 @@ export interface ProjectMetadata {
   platforms: string[];
   tags: string[];
   slug: string;
+
+  slides: CarouselSlide[];
 }

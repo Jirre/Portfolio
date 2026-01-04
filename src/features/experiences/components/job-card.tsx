@@ -1,3 +1,4 @@
+import { Li } from "@/components/ui/typography/lists";
 import { Job } from "../types";
 import { Box } from "@/components/ui/box";
 import { H3 } from "@/components/ui/typography/headers";
@@ -29,9 +30,9 @@ export const JobCard = ({job, className}: {job: Omit<Job, "type" | "date">, clas
         <span className="text-xs font-bold uppercase tracking-widest text-dynamic">Achievements:</span>
         <ul className="list-outside ml-5 mt-3 space-y-2">
           {achievements.map((e, i) => (
-            <li key={i} className="text-sm list-item marker:content-['◆\a0\a0'] marker:text-primary marker:text-[10px] marker:text-dynamic">
+            <Li key={i}>
               {e}
-            </li>
+            </Li>
           ))}
         </ul>
       </div>

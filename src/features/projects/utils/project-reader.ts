@@ -1,3 +1,5 @@
+import { createSlide, MediaType } from "@/features/carousel/types/carousel-slide";
+import { parseMdx } from "@/utils/mdx/parse-mdx";
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
@@ -30,13 +32,15 @@ async function getProjectInternal(file: string) {
 
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
+  const { gallery, ...meta }: { gallery?: {type: MediaType, url: string}[] } = data;
 
   return {
     file,
     metadata: {
       slug: file,
-      ...data,
+      slides: gallery?.map((slide) => createSlide(slide)) ?? [],
+      ...meta,
     } as ProjectMetadata,
-    content,
+    content: await parseMdx(content),
   };
 }
