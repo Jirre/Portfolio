@@ -7,7 +7,7 @@ import {Hero} from "./_components/hero";
 import {getProject} from "@/features/projects/utils/project-reader";
 
 export default async function Home() {
-  const projects = await getProject(["cat-tapper", "festicoin", "no-rush"]);
+  const projects = await getProject(["nailed-it", "herald", "no-rush"]);
 
   return (
     <>

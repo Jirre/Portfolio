@@ -1,9 +1,10 @@
 import { CarouselSlide } from "@/features/carousel/types/carousel-slide";
+import { ReactNode } from "react";
 
 export type Project = {
   file: string;
   metadata: ProjectMetadata;
-  content: string;
+  content: ReactNode;
 }
 
 export type Collaborator = {

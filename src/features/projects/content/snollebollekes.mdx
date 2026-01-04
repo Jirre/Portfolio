@@ -1,0 +1,45 @@
+---
+title: "Snollebollekes"
+date: "2020-06-10"
+thumbnail: "gameplay.webp"
+summary: "A mobile AR game and multiplayer experience that brought a live concert into users' living rooms during the COVID-19 pandemic as well as creating a promotional media for the client."
+type: "game"
+stack: ["Unity", "C#", "Javascript"]
+platforms: ["Android", "iOS"]
+tags: ["Professional Project", "Online Multiplayer"]
+links:
+    - name: "Android"
+      url: "https://play.google.com/store/apps/details?id=com.roxelane.snollebollekes"
+      icon: "android"
+gallery:
+    - type: "youtube"
+      url: "3dpI5OF9u0k"
+    - type: "image"
+      url: "/snollebollekes/gameplay.webp"
+    - type: "image"
+      url: "/snollebollekes/dashboard.webp"
+    - type: "image"
+      url: "/snollebollekes/battlepass.webp"
+    - type: "image"
+      url: "/snollebollekes/store.webp"
+collaborators:
+    - name: "Roxelane BV"
+      role: "Employer"
+      url: "https://roxelane.nl"
+      img: "/collaborators/roxelane.webp"
+---
+
+## Description
+The Snollebollekes App was designed to bridge the gap between fans and live performances during the COVID pandemic. We used Augmented Reality and a real-time multiplayer game to create a promotional game in which we were able to create a "virtual stadium" experience where users could watch a live-projected concert and compete in multiplayer mini-games.
+
+## Key Features & Architecture
+The project's complexity stemmed from the synchronization of three major pillars:
+* **Augmented Reality:** We used **Vuforia** to track and project a "live concert" onto real-world surfaces, allowing users to experience the performance from any angle in their own environment.
+* **Real-time Communication:** Implemented **SignalR** to handle low-latency communication between players, enabling synchronized gameplay and live interaction during the concert.
+* **Cloud Infrastructure:** Utilized **PlayFab** for comprehensive LiveOps, e-commerce and profile management. I developed the backend logic using **JavaScript** (CloudScript) to manage online user-data storage, leaderboards, and real-time event updates.
+
+## Responsibilities
+* **Team Management:** Led a team of 4 programmers, delegating tasks across UI, AR, and backend systems while maintaining a cohesive codebase.
+* **Backend Development:** Engineered the cloud infrastructure using PlayFab and JavaScript to handle secure user data and competitive live-ops.
+* **AR Integration:** Oversaw the implementation of Vuforia tracking to ensure "live" projections on a wide range of mobile hardware.
+* **Multiplayer Logic:** Architected the SignalR integration within Unity to support real-time state synchronization across thousands of devices.
