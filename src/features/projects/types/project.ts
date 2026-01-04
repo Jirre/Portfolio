@@ -13,13 +13,19 @@ export type Collaborator = {
   img: string;
 }
 
+export type Link = {
+  name: string;
+  url: string;
+  icon: string;
+}
+
 export interface ProjectMetadata {
   title: string;
   date: string;
   thumbnail: string;
   summary: string;
   collaborators?: Collaborator[];
-  link?: string;
+  links?: Link[];
   github?: string;
   type: string;
   stack: string[];

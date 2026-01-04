@@ -5,7 +5,8 @@ import { H3 } from "@/components/ui/typography/headers";
 import { ProjectMetadata, ProjectType, projectTypeColors } from "@/features/projects/types";
 import { cn } from "@/utils";
 import { FC } from "react";
-import { FaGithub, FaGlobe } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { DynamicIcon } from "@/components/icons/dynamic-icon";
 
 type Props = {
   className?: string;
@@ -49,10 +50,10 @@ export const Details: FC<Props> = ({className, metadata}) =>
     </Box>
     <div className="flex justify-center lg:flex-col gap-2">
       {
-        metadata.link &&
-          <LinkButton variant="highlight" href={metadata.link} className="px-8">
-              <FaGlobe size={20} className={"mr-2"} /> Visit Project
-          </LinkButton>
+        metadata.links?.map((link) => <LinkButton key={link.name} variant="highlight" href={link.url} className="px-8">
+          <DynamicIcon name={link.icon} size={20} className={"mr-2"} /> {link.name}
+        </LinkButton>)
+
       }
       {
         metadata.github &&
@@ -61,5 +62,4 @@ export const Details: FC<Props> = ({className, metadata}) =>
           </LinkButton>
       }
     </div>
-
   </div>;

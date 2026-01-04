@@ -69,7 +69,7 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
           {/* Social Icons - absolute to keep them in place */}
           <div className="absolute bottom-5 right-5 flex items-center gap-2 text-zinc-400 transition-colors group-hover:text-dynamic">
             {metadata.github && <SiGithub size={18} />}
-            {metadata.link && <FaGlobe size={18} />}
+            {(metadata.links?.length ?? 0) > 0 && <FaGlobe size={18} />}
           </div>
         </div>
       </Box>

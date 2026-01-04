@@ -48,8 +48,6 @@ export default async function Project({
                             <span className="font-bold text-lg">{collaborator.name}</span>
                             {collaborator.role && <span className="font-italic text-foreground/75">{collaborator.role}</span>}
                           </div>
-
-
                         </LinkButton>
                       ))
                       }
