@@ -26,9 +26,6 @@ A personal portfolio website built with Next.js, featuring project showcases, re
 
 </div>
 
-
-
-
 ## Technologies
 
 - **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
