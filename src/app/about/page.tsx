@@ -7,7 +7,7 @@ import { SkillsGrid, trainedSkills } from "@/features/skills";
 import { FaFileDownload, FaGraduationCap, FaTrophy, FaUser } from "react-icons/fa";
 import { LuSearchCode } from "react-icons/lu";
 
-export default function About() {
+export default function AboutPage() {
   const today = new Date();
   const birthDate = new Date(1995, 5, 20);
   let age = today.getFullYear() - birthDate.getFullYear();

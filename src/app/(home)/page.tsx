@@ -6,7 +6,7 @@ import { LuCodeXml, LuSearchCode } from "react-icons/lu";
 import {Hero} from "./_components/hero";
 import {getProject} from "@/features/projects/utils/project-reader";
 
-export default async function Home() {
+export default async function HomePage() {
   const projects = await getProject(["nailed-it", "herald", "no-rush"]);
 
   return (

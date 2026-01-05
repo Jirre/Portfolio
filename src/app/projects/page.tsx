@@ -2,7 +2,7 @@ import { H1 } from "@/components/ui/typography/headers";
 import { ProjectsGrid } from "@/features/projects/components/projects-grid";
 import { getAllProjects } from "@/features/projects/utils/project-reader";
 
-export default async function Projects() {
+export default async function ProjectsPage() {
 
   const projects = (await getAllProjects()).sort((a, b) => {
     const priorityA = a.metadata.priority || 0;

@@ -2,10 +2,17 @@ import { Details } from "@/app/projects/[project]/_components/details";
 import { LinkButton } from "@/components/ui/buttons";
 import { H1, H2 } from "@/components/ui/typography/headers";
 import { Carousel } from "@/features/carousel/components/carousel";
-import { getProject } from "@/features/projects/utils/project-reader";
+import { getAllProjects, getProject } from "@/features/projects/utils/project-reader";
 import { notFound } from "next/dist/client/components/not-found";
 
-export default async function Project({
+export const generateStaticParams = async () => {
+  const projects = await getAllProjects();
+  return projects.map((project) => ({
+    project: project.file,
+  }));
+};
+
+export default async function ProjectPage({
                                         params,
                                       }: {
   params: Promise<{ project: string }>;
