@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div style="text-align: center">
+
+<img width="196px" alt="logo" src="public/favicon.svg"></a>
+
+<a name="readme-top"></a>
+
+# Portfolio
+
+A personal portfolio website built with Next.js, featuring project showcases, responsive design, and MDX-based content management.
+
+<p>
+    <picture><img alt="Last Commit" src="https://img.shields.io/github/last-commit/Jirre/Portfolio?style=for-the-badge&color=green"></picture>
+</p>
+
+<picture><img alt="React" src="https://img.shields.io/badge/19.2-%2361DAFB?style=for-the-badge&logo=React&label=React"></picture>
+<picture><img alt="NextJS" src="https://img.shields.io/badge/16.0-%23646CFF?style=for-the-badge&logo=Next.js&label=NextJS"></picture>
+<picture><img alt="Tailwind" src="https://img.shields.io/badge/4.1-%2306B6D4?style=for-the-badge&logo=TailwindCss&label=Tailwind"></picture>
+
+<p>
+  <a href="#technologies">Technologies</a> •
+  <a href="#getting-started">Getting Started</a> •
+  <a href="#docker-setup">Docker Setup</a> •
+  <a href="#available-scripts">Available Scripts</a> •
+  <a href="#project-structure">Project Structure</a> •
+</p>
+
+</div>
+
+
+
+
+## Technologies
+
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Content:** [MDX](https://mdxjs.com/) with `next-mdx-remote` and `gray-matter`
+- **Animations:** [Motion](https://motion.dev/)
+- **Icons:** [React Icons](https://react-icons.github.io/react-icons/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 22.x
+- npm
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd Portfolio
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Docker Setup
+
+You can also run the project using Docker.
+
+### Build the image
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker build -t portfolio-web .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Run the container
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+docker run -p 3000:3000 portfolio-web
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+- `npm run dev` – Starts the development server.
+- `npm run build` – Creates an optimized production build.
+- `npm run start` – Starts the production server.
+- `npm run lint` – Runs ESLint to check for code quality issues.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/` – Next.js App Router pages and layouts.
+- `src/components/` – Reusable UI components.
+- `src/features/` – Feature-specific logic, components, and content (e.g., projects).
+- `src/utils/` – Utility functions.
+- `public/` – Static assets.

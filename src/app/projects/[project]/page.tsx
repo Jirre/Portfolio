@@ -28,7 +28,7 @@ export default async function Project({
             {metadata.title}
           </H1>
 
-          <Carousel slides={metadata.slides} />
+          {metadata.slides && <Carousel slides={metadata.slides} />}
 
           {/* Mobile Details */}
           <div className="block lg:hidden">

@@ -23,28 +23,35 @@ export const Details: FC<Props> = ({className, metadata}) =>
         <tr>
           <td><strong>Project Type:</strong></td>
           <td>
-            <Badge key={metadata.type}
-                   className={projectTypeColors[metadata.type as ProjectType]}>{metadata.type}</Badge>
+            {metadata.types.map((type) =>
+              <Badge
+                key={type}
+                className={projectTypeColors[type as ProjectType]}>{type}</Badge>)}
           </td>
         </tr>
-        <tr>
-          <td><strong>Platforms:</strong></td>
-          <td>
-            {metadata.platforms.map((platform) => <Badge key={platform}>{platform}</Badge>)}
-          </td>
-        </tr>
+        {
+          metadata.platforms?.length && <tr>
+                <td><strong>Platforms:</strong></td>
+                <td>
+                  {metadata.platforms.map((platform) => <Badge key={platform}>{platform}</Badge>)}
+                </td>
+            </tr>
+        }
+
         <tr>
           <td><strong>Stack:</strong></td>
           <td>
             {metadata.stack.map((tool) => <Badge key={tool}>{tool}</Badge>)}
           </td>
         </tr>
-        <tr>
-          <td><strong>Tags:</strong></td>
-          <td>
-            {metadata.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
-          </td>
-        </tr>
+        {
+          metadata.tags?.length && <tr>
+                <td><strong>Tags:</strong></td>
+                <td>
+                  {metadata.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
+                </td>
+            </tr>
+        }
         </tbody>
       </table>
     </Box>

@@ -3,7 +3,20 @@ import { ProjectsGrid } from "@/features/projects/components/projects-grid";
 import { getAllProjects } from "@/features/projects/utils/project-reader";
 
 export default async function Projects() {
-  const projects = (await getAllProjects()).sort((a,b) => a.metadata.date > b.metadata.date ? -1 : 1);
+
+  const projects = (await getAllProjects()).sort((a, b) => {
+    const priorityA = a.metadata.priority || 0;
+    const priorityB = b.metadata.priority || 0;
+
+    // Priority Sort
+    if (priorityB !== priorityA) {
+      return priorityB - priorityA;
+    }
+
+    // Date Sort
+    return new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime();
+  });
+
   return (
     <>
       <H1 className="text-5xl font-black w-full text-center my-4 mt-8">Projects</H1>

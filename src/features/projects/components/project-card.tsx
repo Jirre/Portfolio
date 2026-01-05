@@ -1,16 +1,14 @@
 import { Badge } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
 import { H3 } from "@/components/ui/typography/headers";
-import { ProjectType, projectTypeColors } from "../types/project-type";
-import { ProjectMetadata } from "../types/project";
+import { ProjectType, projectTypeColors } from "@/features/projects/types";
 import { cn } from "@/utils";
+import { ProjectMetadata } from "../types/project";
 import Link from "next/link";
 import { FaGlobe } from "react-icons/fa";
 import { SiGithub } from "react-icons/si";
 
 export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
-  const typeKey = metadata.type.toLowerCase();
-
   return (
     <Link className="group relative rounded-2xl p-0.5 transition-all duration-300 hover:scale-[1.02]"
           href={`/projects/${metadata.slug}`}>
@@ -27,11 +25,14 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
           />
 
           {/* Project Type Badge */}
-          <div className={cn(
-            "absolute top-3 left-3 rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md uppercase tracking-widest",
-            projectTypeColors[typeKey as ProjectType] || projectTypeColors.other
-          )}>
-            {metadata.type}
+          <div className="absolute top-3 right-3 flex gap-2">
+            {
+              metadata.types.map((type, i) => (
+                <span key={i} className={cn(projectTypeColors[type.toLowerCase() as ProjectType] || projectTypeColors.other, "rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md uppercase tracking-widest")}>
+                  {type}
+                </span>
+              ))
+            }
           </div>
         </div>
 
@@ -59,11 +60,14 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
                 </Badge>
               ))}
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              {metadata.tags.map((item) => (
-                <Badge key={item}>{item}</Badge>
-              ))}
-            </div>
+            {
+              metadata.tags?.length && <div className="flex flex-wrap gap-1.5">
+                {metadata.tags.map((item) => (
+                  <Badge key={item}>{item}</Badge>
+                ))}
+                </div>
+            }
+
           </div>
 
           {/* Social Icons - absolute to keep them in place */}

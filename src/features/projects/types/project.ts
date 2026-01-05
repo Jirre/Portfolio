@@ -23,15 +23,16 @@ export type Link = {
 export interface ProjectMetadata {
   title: string;
   date: string;
+  priority?: number;
   thumbnail: string;
   summary: string;
   collaborators?: Collaborator[];
   links?: Link[];
   github?: string;
-  type: string;
+  types: string[];
   stack: string[];
-  platforms: string[];
-  tags: string[];
+  platforms?: string[];
+  tags?: string[];
   slug: string;
 
   slides: CarouselSlide[];

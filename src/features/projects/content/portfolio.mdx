@@ -1,0 +1,21 @@
+---
+title: "Portfolio Website"
+date: "2026-01-05"
+priority: 25
+thumbnail: "home.webp"
+summary: "A MDX-driven portfolio built with Next.js 16, Tailwind, and Typescript, featuring Bulletproof folder structure."
+types: ["website"]
+stack: ["Next.js", "React", "TypeScript", "Tailwind CSS"]
+github: "https://github.com/Jirre/Portfolio"
+---
+
+This website serves as both a professional showroom and a technical sandbox. The goal was to build a system that allows for seamless content creation via MDX while maintaining the performance benefits of a statically generated site.
+
+## Architecture
+The site is built using the **Next.js App Router** and utilizes a file-system-based "Content API." Finally I utilize the **Bulletproof** folder structure to maintain readability.
+
+### Key Technical Systems:
+* **Custom MDX Pipeline:** I developed a utility that parses local MDX files, extracts frontmatter for the gallery's sorting logic, and dynamically injects React components into the markdown body.
+* **Inverted Data Fetching:** To optimize build times, I implemented a targeted fetching logic that only reads necessary files instead of crawling the entire directory for every page request.
+* **Dynamic Media Gallery:** Built a modular gallery component that detects media types (Local Video, Image, or YouTube) and renders the appropriate optimized player.
+* **Responsive Design:** Using **Tailwind CSS**, I architected a fluid layout that handles complex data grids for mobile, tablet, and desktop views.

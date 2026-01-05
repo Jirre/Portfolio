@@ -9,7 +9,7 @@ export const ProjectsGrid = ({projects}: {projects: Project[]}) => {
   const [activeFilter, setActiveFilter] = useState<ProjectType | "all">("all");
 
   const filteredProjects = useMemo(() => (
-    projects.filter(project => activeFilter === "all" || project.metadata.type === activeFilter)
+    projects.filter(project => activeFilter === "all" || project.metadata.types.includes(activeFilter))
   ), [activeFilter]);
 
   return (

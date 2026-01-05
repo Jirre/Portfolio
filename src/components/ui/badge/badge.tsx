@@ -12,7 +12,7 @@ export const Badge = ({ children, className }: BadgeProps) => {
     <Box
       variant="badge"
       className={cn(
-        "rounded-md shadow-sm p-1 py-0.5 h-fit inline-flex items-center justify-center",
+        "rounded-md shadow-sm p-1 py-0.5 h-fit inline-flex items-center justify-center mx-0.5",
         className
       )}
     >
