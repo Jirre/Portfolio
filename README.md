@@ -1,6 +1,6 @@
-<div style="text-align: center">
+<div align="center">
 
-<img width="196px" alt="logo" src="public/favicon.svg"></a>
+<img height="196px" alt="logo" src="public/projects/portfolio/home.webp">
 
 <a name="readme-top"></a>
 
@@ -9,19 +9,19 @@
 A personal portfolio website built with Next.js, featuring project showcases, responsive design, and MDX-based content management.
 
 <p>
-    <picture><img alt="Last Commit" src="https://img.shields.io/github/last-commit/Jirre/Portfolio?style=for-the-badge&color=green"></picture>
+    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/Jirre/Portfolio?style=for-the-badge&color=green">
 </p>
 
-<picture><img alt="React" src="https://img.shields.io/badge/19.2-%2361DAFB?style=for-the-badge&logo=React&label=React"></picture>
-<picture><img alt="NextJS" src="https://img.shields.io/badge/16.0-%23646CFF?style=for-the-badge&logo=Next.js&label=NextJS"></picture>
-<picture><img alt="Tailwind" src="https://img.shields.io/badge/4.1-%2306B6D4?style=for-the-badge&logo=TailwindCss&label=Tailwind"></picture>
+<img alt="React" src="https://img.shields.io/badge/19.2-%2361DAFB?style=for-the-badge&logo=React&label=React">
+<img alt="NextJS" src="https://img.shields.io/badge/16.0-%23646CFF?style=for-the-badge&logo=Next.js&label=NextJS">
+<img alt="Tailwind" src="https://img.shields.io/badge/4.1-%2306B6D4?style=for-the-badge&logo=TailwindCss&label=Tailwind">
 
-<p>
+<p align="center">
   <a href="#technologies">Technologies</a> •
   <a href="#getting-started">Getting Started</a> •
   <a href="#docker-setup">Docker Setup</a> •
   <a href="#available-scripts">Available Scripts</a> •
-  <a href="#project-structure">Project Structure</a> •
+  <a href="#project-structure">Project Structure</a>
 </p>
 
 </div>
