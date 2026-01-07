@@ -1,6 +1,6 @@
 import { CSharp, GML } from "@/components/icons";
 import { Skill } from "@/features/skills/types";
-import { FaDatabase, FaJava } from "react-icons/fa";
+import { FaDatabase, FaJava, FaServer, FaVrCardboard } from "react-icons/fa";
 import {
   SiCplusplus,
   SiCss3, SiDocker, SiGamemaker, SiGit,
@@ -39,5 +39,7 @@ export const trainedSkills: Skill[] = [
   { name: "Docker", icon: <SiDocker size={40} color="#2496ED"/>, tags: ["web", "tool"] },
   { name: "Game Maker", icon: <SiGamemaker size={40} className="text-black dark:text-white"/>, tags: ["game", "engine"] },
   { name: "Git", icon: <SiGit size={40} color="#F05032"/>, tags: ["web", "game", "tool"] },
+  { name: "Playfab", icon: <FaServer size={40} className="text-black dark:text-white"/>, tags: ["backend", "tool"] },
   { name: "Unity", icon: <SiUnity size={40} className="text-black dark:text-white"/>, tags: ["game", "engine", "*top"] },
+  { name: "Vuforia", icon: <FaVrCardboard size={40} className="text-black dark:text-white"/>, tags: ["tool"] },
 ];

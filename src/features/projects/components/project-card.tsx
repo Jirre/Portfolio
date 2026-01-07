@@ -8,7 +8,15 @@ import Link from "next/link";
 import { FaGlobe } from "react-icons/fa";
 import { SiGithub } from "react-icons/si";
 
-export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
+const VIDEO_EXTENSIONS = ['mp4', 'webm', 'ogg', 'mov', 'avi'];
+
+export const ProjectCard = ({metadata}: { metadata: ProjectMetadata }) => {
+  const isVideo = VIDEO_EXTENSIONS.some(ext =>
+    metadata.thumbnail?.toLowerCase().endsWith(ext)
+  );
+
+  const thumbnailPath = `/projects/${metadata.slug}/${metadata.thumbnail}`;
+
   return (
     <Link className="group relative rounded-2xl p-0.5 transition-all duration-300 hover:scale-[1.02]"
           href={`/projects/${metadata.slug}`}>
@@ -17,18 +25,29 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
                  backdrop-blur-xs shadow-lg
                  hover:shadow-dynamic hover:shadow-[0_0_12px]">
         <div className="relative h-48 w-full overflow-hidden border-b border-zinc-200 dark:border-zinc-800">
-          {/* Thumbnail */}
-          <img
-            src={`/projects/${metadata.slug}/${metadata.thumbnail}`}
-            alt={metadata.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+          {isVideo ? (
+            <video
+              src={thumbnailPath}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : (
+            <img
+              src={thumbnailPath}
+              alt={metadata.title}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          )}
 
           {/* Project Type Badge */}
           <div className="absolute top-3 right-3 flex gap-2">
             {
               metadata.types.map((type, i) => (
-                <span key={i} className={cn(projectTypeColors[type.toLowerCase() as ProjectType] || projectTypeColors.other, "rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md uppercase tracking-widest")}>
+                <span key={i}
+                      className={cn(projectTypeColors[type.toLowerCase() as ProjectType] || projectTypeColors.other, "rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-md uppercase tracking-widest")}>
                   {type}
                 </span>
               ))
@@ -71,9 +90,10 @@ export const ProjectCard = ({ metadata }: { metadata: ProjectMetadata }) => {
           </div>
 
           {/* Social Icons - absolute to keep them in place */}
-          <div className="absolute bottom-5 right-5 flex items-center gap-2 text-zinc-400 transition-colors group-hover:text-dynamic">
-            {metadata.github && <SiGithub size={18} />}
-            {(metadata.links?.length ?? 0) > 0 && <FaGlobe size={18} />}
+          <div
+            className="absolute bottom-5 right-5 flex items-center gap-2 text-zinc-400 transition-colors group-hover:text-dynamic">
+            {metadata.github && <SiGithub size={18}/>}
+            {(metadata.links?.length ?? 0) > 0 && <FaGlobe size={18}/>}
           </div>
         </div>
       </Box>

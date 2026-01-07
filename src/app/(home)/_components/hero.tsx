@@ -53,6 +53,7 @@ export const Hero = () => (
               href={social.href}
               className="size-12 rounded-xl"
               aria-label={social.name}
+              newTab
             >
               <social.icon size={20} />
             </LinkButton>
