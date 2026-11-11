@@ -1,13 +1,19 @@
 "use client";
 import React, { useRef, useEffect, memo } from 'react';
 
+const TARGET_FPS = 20;
+const FRAME_INTERVAL = 1000 / TARGET_FPS;
+const MAX_PARTICLES = 150;
+const MAX_PAIRS = (MAX_PARTICLES * (MAX_PARTICLES - 1)) / 2;
+const MAX_DIST_SQ = 150 * 150;
+const BUCKETS = 4;
+
 class Particle {
   x: number; y: number; vx: number; vy: number; radius: number;
 
   constructor(w: number, h: number) {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
-    // Increased base velocity slightly because it's now multiplied by a small delta
     this.vx = (Math.random() - 0.5) * 50;
     this.vy = (Math.random() - 0.5) * 50;
     this.radius = Math.random() * 1.5 + 1;
@@ -32,94 +38,133 @@ export const Background = memo(() => {
     const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
 
-    let w: number, h: number;
+    let w = 0, h = 0;
     let particles: Particle[] = [];
     let lastTime = performance.now();
-
+    let rafId = 0;
+    let resizeTimeout: ReturnType<typeof setTimeout>;
     let currentDynamicColor = "#3b82f6";
-    const initCanvas = () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-      const count = Math.min((w * h) / 10000, 150);
-      particles = Array.from({ length: count }, () => new Particle(w, h));
-      pollColor();
-    };
+
+    // Preallocated line buffers: no per-frame object allocation
+    const lineBuffers = Array.from({ length: BUCKETS }, () => new Float32Array(MAX_PAIRS * 4));
+    const lineCounts = new Int32Array(BUCKETS);
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const pollColor = () => {
       const color = getComputedStyle(document.body)
         .getPropertyValue('--dynamic-color')
         .trim();
       if (color) currentDynamicColor = color;
-    }
+    };
 
-    const colorPollInterval = setInterval(pollColor, 500);
+    const initCanvas = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      const count = Math.min(Math.floor((w * h) / 10000), MAX_PARTICLES);
+      particles = Array.from({ length: count }, () => new Particle(w, h));
+      pollColor();
+      if (reducedMotion.matches) draw(0); // static frame
+    };
 
-    initCanvas();
-
-    const animate = (currentTime: number) => {
-      const deltaTime = (currentTime - lastTime) / 1000;
-      lastTime = currentTime;
-      const dt = Math.min(deltaTime, 0.1);
-
+    const draw = (dt: number) => {
       ctx.clearRect(0, 0, w, h);
 
       ctx.beginPath();
       ctx.fillStyle = currentDynamicColor;
-      particles.forEach(p => {
-        p.update(w, h, dt); // Pass delta time here
-        ctx.moveTo(p.x, p.y);
+      for (const p of particles) {
+        p.update(w, h, dt);
+        ctx.moveTo(p.x + p.radius, p.y); // avoids stray connecting line between arcs
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-      });
+      }
       ctx.fill();
 
-      const buckets: Record<number, { x1: number, y1: number, x2: number, y2: number }[]> = {
-        1: [], 2: [], 3: [], 4: []
-      };
-
-      const maxDistSq = 150 * 150;
-
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const p1 = particles[i];
+      lineCounts.fill(0);
+      const n = particles.length;
+      for (let i = 0; i < n; i++) {
+        const p1 = particles[i];
+        for (let j = i + 1; j < n; j++) {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
+          if (dx > 150 || dx < -150) continue; // early-out
           const dy = p1.y - p2.y;
           const distSq = dx * dx + dy * dy;
-
-          if (distSq < maxDistSq) {
-            const alpha = 1 - distSq / maxDistSq;
-            const bucketIndex = Math.ceil(alpha * 4);
-            buckets[bucketIndex].push({ x1: p1.x, y1: p1.y, x2: p2.x, y2: p2.y });
+          if (distSq < MAX_DIST_SQ) {
+            const b = Math.ceil((1 - distSq / MAX_DIST_SQ) * BUCKETS) - 1;
+            const buf = lineBuffers[b];
+            const o = lineCounts[b] * 4;
+            buf[o] = p1.x; buf[o + 1] = p1.y; buf[o + 2] = p2.x; buf[o + 3] = p2.y;
+            lineCounts[b]++;
           }
         }
       }
 
       ctx.strokeStyle = currentDynamicColor;
       ctx.lineWidth = 0.8;
-
-      Object.entries(buckets).forEach(([index, lines]) => {
-        if (lines.length === 0) return;
+      for (let b = 0; b < BUCKETS; b++) {
+        const count = lineCounts[b];
+        if (count === 0) continue;
+        const buf = lineBuffers[b];
         ctx.beginPath();
-        ctx.globalAlpha = (Number(index) / 4) * 0.3;
-        lines.forEach(l => {
-          ctx.moveTo(l.x1, l.y1);
-          ctx.lineTo(l.x2, l.y2);
-        });
+        ctx.globalAlpha = ((b + 1) / BUCKETS) * 0.3;
+        for (let k = 0; k < count; k++) {
+          const o = k * 4;
+          ctx.moveTo(buf[o], buf[o + 1]);
+          ctx.lineTo(buf[o + 2], buf[o + 3]);
+        }
         ctx.stroke();
-      });
-
+      }
       ctx.globalAlpha = 1.0;
-      requestAnimationFrame(animate);
     };
 
-    const handleResize = () => initCanvas();
+    const animate = (now: number) => {
+      rafId = requestAnimationFrame(animate); // always track the latest id
+      const elapsed = now - lastTime;
+      if (elapsed < FRAME_INTERVAL) return; // frame cap
+      lastTime = now - (elapsed % FRAME_INTERVAL);
+      draw(Math.min(elapsed / 1000, 0.1));
+    };
+
+    const start = () => {
+      if (rafId || reducedMotion.matches) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animate);
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    };
+
+    const handleVisibility = () => (document.hidden ? stop() : start());
+
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(initCanvas, 150); // debounce
+    };
+
+    const handleMotionPref = () => {
+      if (reducedMotion.matches) { stop(); draw(0); } else start();
+    };
+
+    const colorPollInterval = setInterval(() => {
+      if (!document.hidden) pollColor();
+    }, 1000);
+
+    initCanvas();
+    start();
+
     window.addEventListener('resize', handleResize);
-    const animationId = requestAnimationFrame(animate);
+    document.addEventListener('visibilitychange', handleVisibility);
+    reducedMotion.addEventListener('change', handleMotionPref);
 
     return () => {
+      stop();
+      clearTimeout(resizeTimeout);
       clearInterval(colorPollInterval);
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationId);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      reducedMotion.removeEventListener('change', handleMotionPref);
     };
   }, []);
 
@@ -130,3 +175,5 @@ export const Background = memo(() => {
     />
   );
 });
+
+Background.displayName = 'Background';

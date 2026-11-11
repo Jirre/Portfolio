@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 
 interface MorphingImageProps {
   src: string;
@@ -31,28 +31,69 @@ const blobLibrary = [
   "40,0 80,20 90,60 60,90 20,70 10,30"       // 20: Jagged organic
 ];
 
+const buildSequence = () => {
+  const shuffled = [...blobLibrary].sort(() => Math.random() - 0.5);
+  return [...shuffled, shuffled[0]].join('; ');
+};
+
+const subscribe = () => () => {};
+const getServerSnapshot = () => null;
+
 const MorphImage: React.FC<MorphingImageProps> = ({
                                                     src,
                                                     alt = "",
                                                     borderWeight = 4,
                                                     className = ""
                                                   }) => {
-  const clipId = "morph-clip-path";
+  // Unique per instance; colons stripped so url(#id) is safe
+  const clipId = `morph-clip-${useId().replace(/:/g, '')}`;
+  const svgRef = useRef<SVGSVGElement>(null);
 
-  const [sequence, setSequence] = useState(blobLibrary[0]);
-  const [isMounted, setIsMounted] = useState(false);
+  // Per-instance getter that caches its result, so the snapshot stays stable between renders
+  const [getSnapshot] = useState(() => {
+    let cached: string | null = null;
+    return () => (cached ??= buildSequence());
+  });
+  const sequence = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
 
   useEffect(() => {
-    setIsMounted(true);
-    const shuffled = [...blobLibrary].sort(() => Math.random() - 0.5);
-    const fullSequence = [...shuffled, shuffled[0]].join('; ');
-    setSequence(fullSequence);
-  }, []);
+    const svg = svgRef.current;
+    if (!svg || !sequence) return;
 
-  if (!isMounted) return <div className={`w-full h-full aspect-square ${className}`} />;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let inView = true;
+
+    const sync = () => {
+      if (inView && !document.hidden && !reduced.matches) svg.unpauseAnimations();
+      else svg.pauseAnimations();
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    });
+    observer.observe(svg);
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', sync);
+    sync();
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+      reduced.removeEventListener('change', sync);
+    };
+  }, [sequence]);
+
+  if (!sequence) return <div className={`w-full h-full aspect-square ${className}`} />;
+
+  const morph = (
+    <animate attributeName="points" dur="60s" repeatCount="indefinite" values={sequence} />
+  );
 
   return (
     <svg
+      ref={svgRef}
       viewBox="0 0 100 100"
       className={`w-full h-full aspect-square ${className}`}
       style={{ overflow: 'visible', color: 'var(--dynamic-color)' }}
@@ -61,63 +102,40 @@ const MorphImage: React.FC<MorphingImageProps> = ({
     >
       <defs>
         <clipPath id={clipId}>
-          <polygon points={blobLibrary[0]}>
-            {isMounted && (
-              <animate
-                attributeName="points"
-                dur="60s"
-                repeatCount="indefinite"
-                values={sequence}
-              />
-            )}
-          </polygon>
+          <polygon points={blobLibrary[0]}>{morph}</polygon>
         </clipPath>
       </defs>
 
-      <g>
-        <polygon
-          points={blobLibrary[0]}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={borderWeight + 4}
-          style={{ filter: 'blur(8px)', opacity: 0.6 }}
-        >
-          {isMounted && (
-            <animate attributeName="points" dur="60s" repeatCount="indefinite" values={sequence} />
-          )}
-        </polygon>
+      {/* Single soft glow layer (the only filtered element) */}
+      <polygon
+        points={blobLibrary[0]}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={borderWeight + 4}
+        style={{ filter: 'blur(6px)', opacity: 0.7 }}
+      >
+        {morph}
+      </polygon>
 
-        <image
-          href={src}
-          width="100"
-          height="100"
-          preserveAspectRatio="xMidYMid slice"
-          // Only apply the clipPath if mounted to ensure ID references match
-          clipPath={isMounted ? `url(#${clipId})` : undefined}
-        />
+      <image
+        href={src}
+        width="100"
+        height="100"
+        preserveAspectRatio="xMidYMid slice"
+        clipPath={`url(#${clipId})`}
+      />
 
-        <polygon
-          points={blobLibrary[0]}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={borderWeight}
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-          style={{
-            filter: 'drop-shadow(0 0 4px currentColor) drop-shadow(0 0 12px currentColor)',
-            willChange: 'contents'
-          }}
-        >
-          {isMounted && (
-            <animate
-              attributeName="points"
-              dur="60s"
-              repeatCount="indefinite"
-              values={sequence}
-            />
-          )}
-        </polygon>
-      </g>
+      {/* Crisp border: no filter, so it's nearly free */}
+      <polygon
+        points={blobLibrary[0]}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={borderWeight}
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      >
+        {morph}
+      </polygon>
     </svg>
   );
 };
