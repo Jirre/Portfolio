@@ -3,7 +3,7 @@ import { Skill } from "@/features/skills/types";
 import { FaDatabase, FaJava, FaServer, FaVrCardboard } from "react-icons/fa";
 import {
   SiCplusplus,
-  SiCss3, SiDocker, SiGamemaker, SiGit,
+  SiCss, SiDocker, SiGamemaker, SiGit,
   SiHtml5,
   SiJavascript,
   SiNextdotjs,
@@ -18,7 +18,7 @@ export const trainedSkills: Skill[] = [
   // Languages
   { name: "C#", icon: <CSharp size={40} color="#9179E4"/>, tags: ["game", "language", "*top"] },
   { name: "C++", icon: <SiCplusplus size={40} color="#659AD2"/>, tags: ["game", "language"] },
-  { name: "CSS", icon: <SiCss3 size={40} color="#264de4"/>, tags: ["web", "language"] },
+  { name: "CSS", icon: <SiCss size={40} color="#264de4"/>, tags: ["web", "language"] },
   { name: "GML", icon: <GML size={40} color="#8BD248"/>, tags: ["game", "language"] },
   { name: "HTML", icon: <SiHtml5 size={40} color="#E34F26"/>, tags: ["web", "language"] },
   { name: "Java", icon: <FaJava size={40} color="#5382a1"/>, tags: ["game", "language"] },

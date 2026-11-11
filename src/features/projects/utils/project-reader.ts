@@ -1,8 +1,8 @@
 import { createSlide, MediaType } from "@/features/carousel/types/carousel-slide";
 import { parseMdx } from "@/utils/mdx/parse-mdx";
+import { parseYaml } from "@/utils/mdx/parse-yaml";
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
 import { ProjectMetadata } from "../types/project";
 
 const PROJECTS_DIR = path.join(process.cwd(), 'src/features/projects/content');
@@ -31,7 +31,7 @@ async function getProjectInternal(file: string) {
   if (!fs.existsSync(fullPath)) return null;
 
   const fileContents = fs.readFileSync(fullPath, 'utf8');
-  const { data, content } = matter(fileContents);
+  const { data, content } = parseYaml(fileContents);
   const { gallery, ...meta }: { gallery?: {type: MediaType, url: string}[] } = data;
 
   return {
